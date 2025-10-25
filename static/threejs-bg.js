@@ -12,9 +12,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0.1);
 camera.position.z = 30;
 
-// Load pumpkin model
-const eyes = [];
-
 // add robot holder
 let robot = null;
 
@@ -32,58 +29,8 @@ function loadGLBWithFallback(loader, path, fallbackPath, onLoad, onError) {
 	});
 }
 
-function initEyse() {
-	// Use the GLTFLoader imported from the module build
-	const loader = new GLTFLoader();
-	
-	loadGLBWithFallback(
-		loader,
-		'static/anatomical_eye_ball.glb',
-		'anatomical_eye_ball.glb',
-		(gltf) => {
-			const pumpkinModel = gltf.scene;
-			pumpkinModel.scale.set(2, 2, 2);
-			
-			// Spawn ~20 eyes
-			for (let i = 0; i < 20; i++) {
-				const pumpkin = pumpkinModel.clone();
-				const s = 0.02 + Math.random() * 0.035;
-				pumpkin.scale.set(s, s, s);
-
-				pumpkin.position.set(
-					(Math.random() - 0.5) * 100,
-					(Math.random() - 0.5) * 80,
-					(Math.random() - 0.5) * 5 - 10
-				);
-				
-				pumpkin.rotation.set(
-					Math.random() * Math.PI,
-					Math.random() * Math.PI,
-					Math.random() * Math.PI
-				);
-				
-				scene.add(pumpkin);
-				
-				// store per-eye base scale and tiny jelly params for subtle animation
-				pumpkin.userData = pumpkin.userData || {};
-				pumpkin.userData.baseScale = new THREE.Vector3(s, s, s);
-				pumpkin.userData.phase = Math.random() * Math.PI * 2;
-				// Very small amplitude and slow-ish frequency so effect is subtle
-				pumpkin.userData.jellyAmp = 0.1 * (0.5 + Math.random() * 0.7); // ~0.015 - 0.052
-				pumpkin.userData.jellyFreq = 0.8 + Math.random() * 1.6; // ~0.8 - 2.4
-				
-				eyes.push(pumpkin);
-			}
-			console.log('eyes loaded:', eyes.length);
-		},
-		(error) => {
-			console.error('Error loading pumpkin model:', error);
-		}
-	);
-}
-
 // Wait for loader to be available / initialize eyes
-initEyse();
+// initEyse();
 
 // --- Added: load robot model and place at center ---
 {
@@ -151,36 +98,7 @@ function animate() {
 		robot.rotation.y += 0.001; // Adjust speed as needed
 	}
 
-	// per-eye lookAt + subtle jelly/squeeze scaling
-	eyes.forEach(eye => {
-		// small jelly/squeeze animation based on stored base scale
-		const ud = eye.userData || {};
-		const base = ud.baseScale || eye.scale;
-		const phase = ud.phase || 0;
-		const amp = ud.jellyAmp || 0.03;
-		const freq = ud.jellyFreq || 1.2;
-
-		// anisotropic factors: X vs Y opposite phase => squeeze effect,
-		// Z gets a much smaller wobble to keep volume feel.
-		const sX = 1 + amp * Math.sin(now * freq + phase);
-		const sY = 1 - amp * Math.sin(now * freq + phase); // opposite to X
-		const sZ = 1 + (amp * 0.25) * Math.sin(now * freq + phase + Math.PI / 2);
-
-		eye.scale.set(base.x * sX, base.y * sY, base.z * sZ);
-
-		// compute a world-space target where the camera->mouse ray intersects plane at eye.z
-		const rayOrigin = raycaster.ray.origin;
-		const rayDir = raycaster.ray.direction;
-		const eyeZ = eye.position.z+3;
-
-		// avoid division by near-zero if ray is parallel to plane
-		if (Math.abs(rayDir.z) > 1e-6) {
-			const t = (eyeZ - rayOrigin.z) / rayDir.z;
-			const target = new THREE.Vector3().copy(rayDir).multiplyScalar(t).add(rayOrigin);
-			eye.lookAt(target);
-		}
-	});
-	
+	// renderer.render(scene, camera);
 	renderer.render(scene, camera);
 }
 
