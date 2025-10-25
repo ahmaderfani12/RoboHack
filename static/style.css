@@ -12,7 +12,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 150px; /* drastically increased padding to move content lower */
     position: relative;
     overflow: hidden;
 }
@@ -37,7 +37,7 @@ body {
 
 .mystic-title {
     text-align: center;
-    margin-bottom: 1.25rem;
+    margin-top: 10rem; /* drastically increased margin to move title lower */
 }
 
 .mystic-title h1 {
@@ -63,7 +63,7 @@ body {
     padding: 22px;
     backdrop-filter: blur(6px) saturate(120%);
     box-shadow: 0 12px 40px rgba(16,8,38,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
-    margin-bottom: 1.5rem;
+    margin-bottom: 8rem; /* drastically increased margin to move the crystal ball lower */
     border: 1px solid rgba(156,245,225,0.04);
 }
 
@@ -114,7 +114,7 @@ body {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
     border-radius: 14px;
     padding: 20px;
-    margin-top: 16px;
+    margin-top: 10px; /* drastically increased margin to move response area lower */
     box-shadow: 0 8px 30px rgba(0,0,0,0.5);
     min-height: 100px;
     max-height: 420px;
@@ -131,7 +131,7 @@ body {
     text-align: center;
     color: #9cf5e1;
     font-size: 1.05rem;
-    margin-top: 18px;
+    margin-top: 20px; /* drastically increased margin to move loading text lower */
     display: none;
     animation: subtlePulse 1.6s ease-in-out infinite;
 }

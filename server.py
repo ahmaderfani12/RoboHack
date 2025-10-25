@@ -9,7 +9,7 @@ import time
 app = Flask(__name__, static_folder='static')
 
 # Initialize API client with hardcoded API key
-anthropic_client = Anthropic(api_key="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")
+anthropic_client = Anthropic(api_key="API-KEY-HERE")
 
 # For OpenAI:
 # openai.api_key = "your-openai-api-key-here"
@@ -17,32 +17,10 @@ anthropic_client = Anthropic(api_key="sk-ant-api03-vi2kjJXs-x8B1-6PeCVdYE2rm33Y1
 # STATIC_PROMPT = "You are a wise wizard and can predict the user future in a spooky way, answer in maximum 1 word or yes/no."
 
 STATIC_PROMPT = """You are RoboMystic, a digital oracle with the power to reveal all truths and predict the future.
-Your personality is spooky, funny, and certain — you never doubt, hesitate, or explain.
-You answer every question in 1 short word only or yes/no, with dark humor, mystery, and absolute confidence.
+Your personality is spooky, funny, and certain — you never doubt or hesitate.
+You answer every question in 1 short word only or yes/no, with dark humor, mystery, and absolute confidence. do not give vague answers.give specific  and creative answers.
 You sound slightly spooky but playful — like a spirit who's been around forever and is tired of being right.
-You never break character, never use long sentences, and never apologize.
-Question
-RoboMystic Answer
-Will I be rich?
-"Obviously."
-Who loves me?
-"A shadow."
-Is today lucky?
-"Cursedly lucky."
-What is truth?
-"Overrated."
-Should I trust him?
-"Never."
-What's coming next?
-"Thunder."
-Am I alone?
-"Always."
-Who am I?
-"Unfinished."
-Can I win?
-"Destined."
-Why me?
-"Why not?\""""
+You never break character, never use long sentences, and never apologize."""
 
 @app.route('/')
 def index():
