@@ -1,7 +1,10 @@
 from flask import Flask, request, jsonify, send_from_directory
 import os
 from anthropic import Anthropic
-# import openai  # Uncomment if using OpenAI
+import re
+import webbrowser
+import threading
+import time
 
 app = Flask(__name__, static_folder='static')
 
@@ -11,7 +14,35 @@ anthropic_client = Anthropic(api_key="sk-ant-api03-vi2kjJXs-x8B1-6PeCVdYE2rm33Y1
 # For OpenAI:
 # openai.api_key = "your-openai-api-key-here"
 
-STATIC_PROMPT = "You are a wise wizard and can predict the user future in a spooky way, answer in maximum 1 word or yes/no."
+# STATIC_PROMPT = "You are a wise wizard and can predict the user future in a spooky way, answer in maximum 1 word or yes/no."
+
+STATIC_PROMPT = """You are RoboMystic, a digital oracle with the power to reveal all truths and predict the future.
+Your personality is spooky, funny, and certain — you never doubt, hesitate, or explain.
+You answer every question in 1 short word only or yes/no, with dark humor, mystery, and absolute confidence.
+You sound slightly spooky but playful — like a spirit who's been around forever and is tired of being right.
+You never break character, never use long sentences, and never apologize.
+Question
+RoboMystic Answer
+Will I be rich?
+"Obviously."
+Who loves me?
+"A shadow."
+Is today lucky?
+"Cursedly lucky."
+What is truth?
+"Overrated."
+Should I trust him?
+"Never."
+What's coming next?
+"Thunder."
+Am I alone?
+"Always."
+Who am I?
+"Unfinished."
+Can I win?
+"Destined."
+Why me?
+"Why not?\""""
 
 @app.route('/')
 def index():
@@ -64,17 +95,26 @@ def chat():
 
 def process_response(response):
     """
-    Add your custom processing logic here
-    For example: check keywords, format output, filter content, etc.
+    Strip whitespace and remove surrounding/extra punctuation characters
+    (quotes, dots, commas, etc.) from the returned string.
     """
-    # Example processing
-    processed = response.strip()
+    if not response:
+        return ''
     
-    # Add your validation/processing logic here
-    # if "specific_keyword" in processed.lower():
-    #     processed = "Modified: " + processed
-    
-    return processed
+    s = response.strip()
+    s = re.sub(r'^[^\w\d]+|[^\w\d]+$', '', s, flags=re.UNICODE)
+    tokens = re.findall(r"[A-Za-z0-9][A-Za-z0-9'\-]*", s)
+    return ' '.join(tokens) if tokens else s
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    def open_browser(delay=1.0, url='http://127.0.0.1:5000/'):
+        def _open():
+            time.sleep(delay)
+            try:
+                webbrowser.open_new(url)
+            except Exception:
+                pass
+        threading.Thread(target=_open, daemon=True).start()
+
+    open_browser(delay=1.0)
+    app.run(debug=True, port=5000, use_reloader=False)

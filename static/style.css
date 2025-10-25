@@ -32,9 +32,11 @@ body {
 
 .mystic-title h1 {
     font-family: 'Creepster', cursive;
-    font-size: 3.2rem;
+    font-size: 4.2rem; /* increased size */
     color: #9cf5e1;
-    text-shadow: 0 0 8px rgba(156,245,225,0.12), 0 0 20px rgba(124,58,237,0.12);
+    text-transform: uppercase; /* make title upper */
+    letter-spacing: 1.6px; /* subtle spacing for uppercase */
+    text-shadow: 0 0 10px rgba(156,245,225,0.14), 0 0 28px rgba(124,58,237,0.18);
     margin-bottom: 0.2rem;
 }
 
@@ -159,6 +161,6 @@ body {
 
 /* Responsive tweaks */
 @media (max-width: 480px) {
-    .mystic-title h1 { font-size: 2.2rem; }
+    .mystic-title h1 { font-size: 2.8rem; } /* adjusted for smaller screens */
     .container { padding: 14px; }
 }
