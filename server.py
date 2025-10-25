@@ -11,7 +11,7 @@ anthropic_client = Anthropic(api_key="sk-ant-api03-vi2kjJXs-x8B1-6PeCVdYE2rm33Y1
 # For OpenAI:
 # openai.api_key = "your-openai-api-key-here"
 
-STATIC_PROMPT = "You are a helpful assistant. Please provide a concise and useful response to the following query:"
+STATIC_PROMPT = "You are a wise wizard and can predict the user future in a spooky way, answer in maximum 1 word or yes/no."
 
 @app.route('/')
 def index():

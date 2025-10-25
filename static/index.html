@@ -3,30 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Search</title>
+    <title>RoboMystic - The Digital Fortune Teller</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <div class="search-wrapper">
-            <input 
-                type="text" 
-                id="searchInput" 
-                class="search-input" 
-                placeholder="Ask me anything..."
-                autocomplete="off"
-            >
-            <button id="searchButton" class="search-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
+        <div class="mystic-title">
+            <h1>RoboMystic</h1>
+            <p class="subtitle"> The Mechanical Seer — Ask, and the machine will show your fate</p>
         </div>
-        
-        <div id="responseArea" class="response-area"></div>
-        <div id="loading" class="loading">Thinking...</div>
+
+        <div class="crystal-ball">
+            <div class="search-wrapper">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Pose your question to the machine..."
+                    autocomplete="off"
+                >
+                <button id="searchButton" class="search-button" aria-label="Ask RoboMystic">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L15 6M12 2L9 6M12 2V14M12 14L8 10M12 14L16 10M21 14C21 17.866 17.866 21 14 21H10C6.13401 21 3 17.866 3 14V10C3 6.13401 6.13401 3 10 3H14C17.866 3 21 6.13401 21 10V14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="responseArea" class="response-area" aria-live="polite"></div>
+            <div id="loading" class="loading">The machine spirits are consulting...</div>
+        </div>
     </div>
 
+    <div class="fog-overlay" aria-hidden="true"></div>
+
     <script src="/static/script.js"></script>
+
 </body>
 </html>
