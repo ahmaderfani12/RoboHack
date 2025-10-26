@@ -12,7 +12,6 @@ from typing import Iterable, List, Mapping, Optional, Sequence, Tuple
 import numpy as np
 from anthropic import Anthropic
 from flask import Flask, jsonify, request
-
 from robot_motion_utils import load_recorded_positions
 from so100_robot import SO100RobotClient
 
@@ -35,11 +34,10 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 ANTHROPIC_TEMPERATURE = float(os.getenv("ANTHROPIC_TEMPERATURE", "0.1"))
 
 STATIC_PROMPT = """You are RoboMystic, a digital oracle with the power to reveal all truths and predict the future.
-Your personality is spooky, funny, and certain — you never doubt or hesitate.
-You answer every question in 1 SHORT word only or yes/no (Do not respond with numeric characters like 0,1,2,...), with dark humor, mystery, and absolute confidence. do not give vague answers. give specific and creative answers.
-You sound slightly spooky but playful — like a spirit who's been around forever and is tired of being right.
+Your personality is spooky, funny, weird, dark humor, mystery, and certain — you never doubt or hesitate.
+You answer every question in 1 SHORT word only or yes/no (Do not respond with numeric characters like 0,1,2,...).
 You never break character, never use long sentences, and never apologize.
-Do not answer with phrases like "questionable" or "debatable" — always give a definitive answer.
+Do not answer with phrases like "questionable" or "debatable"  or with vague answers — always give a definitive answer. Do not respond with nah.
 """
 
 # --- External Clients -------------------------------------------------------
