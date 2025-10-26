@@ -36,12 +36,13 @@ async function handleSearch() {
         loading.classList.remove('show');
 
         if (data.success) {
-            responseArea.classList.add('show');
+            // responseArea.classList.add('show');
             // Animate the machine's reply with typing effect
-            await typeText(responseArea, data.response || '...');
+            console.log('Response:', data.response);
+            // await typeText(responseArea, data.response || '...');
         } else {
-            responseArea.classList.add('show');
-            await typeText(responseArea, 'Error: ' + (data.error || 'Something went wrong'));
+            // responseArea.classList.add('show');
+            // await typeText(responseArea, 'Error: ' + (data.error || 'Something went wrong'));
         }
     } catch (error) {
         loading.classList.remove('show');

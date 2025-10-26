@@ -10,24 +10,25 @@
 <body>
     <canvas id="threejsCanvas"></canvas>
     <div class="container">
-        <div class="mystic-title">
+        <div class="mystic-title" style="margin-bottom: 20px; margin-top: 20px;">
             <h1>RoboMystic</h1>
             <p class="subtitle"> The Mechanical Seer — Ask, and the machine will show your fate</p>
         </div>
 
         <div class="crystal-ball">
             <div class="search-wrapper">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    class="search-input" 
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
                     placeholder="Pose your question to the machine..."
                     autocomplete="off"
                 >
                 <button id="searchButton" class="search-button" aria-label="Ask RoboMystic">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L15 6M12 2L9 6M12 2V14M12 14L8 10M12 14L16 10M21 14C21 17.866 17.866 21 14 21H10C6.13401 21 3 17.866 3 14V10C3 6.13401 6.13401 3 10 3H14C17.866 3 21 6.13401 21 10V14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <span class="button-glow" aria-hidden="true"></span>
+                    <span class="button-face">
+                        <span class="button-label">Summon</span>
+                    </span>
                 </button>
             </div>
 
@@ -39,9 +40,9 @@
     <div class="fog-overlay" aria-hidden="true"></div>
 
     <script type="module" src="/static/threejs-bg.js"></script>
-    
+
     <script src="/static/script.js"></script>
-    
+
 
 </body>
 </html>
