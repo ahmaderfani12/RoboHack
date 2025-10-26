@@ -38,6 +38,7 @@ Your personality is spooky, funny, weird, dark humor, mystery, and certain — y
 You answer every question in 1 SHORT word only or yes/no (Do not respond with numeric characters like 0,1,2,...).
 You never break character, never use long sentences, and never apologize.
 Do not answer with phrases like "questionable" or "debatable"  or with vague answers — always give a definitive answer. Do not respond with nah.
+Do not repeat the same answer twice.
 """
 
 # --- External Clients -------------------------------------------------------
@@ -45,7 +46,9 @@ Do not answer with phrases like "questionable" or "debatable"  or with vague ans
 anthropic_client = Anthropic(api_key=ANTHROPIC_API_KEY)
 robot_client = SO100RobotClient(BASE_URL, robot_id=ROBOT_ID)
 state_lock = threading.Lock()
+history_lock = threading.Lock()
 last_state: Optional[Tuple[List[float], str]] = None
+conversation_history: List[Tuple[str, str]] = []
 
 
 # --- Helpers ----------------------------------------------------------------
@@ -115,6 +118,23 @@ def ensure_robot_ready() -> None:
         app.logger.warning("Failed to initialize robot: %s", exc)
 
 
+def build_conversation_prompt(history: Sequence[Tuple[str, str]]) -> List[Mapping[str, str]]:
+    """Return Anthropic-formatted conversation including the static persona prompt."""
+    formatted: List[Mapping[str, str]] = []
+    first_user_added = False
+    for role, content in history:
+        if role == "user":
+            message_content = f"{STATIC_PROMPT}\n\n{content}" if not first_user_added else content
+            formatted.append({"role": "user", "content": message_content})
+            first_user_added = True
+        elif role == "assistant":
+            if not first_user_added:
+                # Skip leading assistant replies without a user turn to anchor the persona.
+                continue
+            formatted.append({"role": "assistant", "content": content})
+    return formatted
+
+
 def playback_sequence(sequence: Sequence[str], positions: Mapping[str, Mapping[str, object]]) -> None:
     global last_state
     for index, label in enumerate(sequence):
@@ -175,15 +195,24 @@ def chat() -> tuple:
         return jsonify({"error": "No message provided"}), 400
 
     try:
+        with history_lock:
+            conversation_history.append(("user", user_message))
+            history_snapshot = list(conversation_history)
+
         ensure_robot_ready()
         response = anthropic_client.messages.create(
             model=ANTHROPIC_MODEL,
             max_tokens=128,
             temperature=ANTHROPIC_TEMPERATURE,
-            messages=[{"role": "user", "content": f"{STATIC_PROMPT}\n\n{user_message}"}],
+            messages=build_conversation_prompt(history_snapshot) or [
+                {"role": "user", "content": f"{STATIC_PROMPT}\n\n{user_message}"}
+            ],
         )
         ai_response = process_response(response.content[0].text)
         clean_word = ai_response.lower()
+
+        with history_lock:
+            conversation_history.append(("assistant", ai_response))
 
         with state_lock:
             drive_robot_for_word(clean_word)
