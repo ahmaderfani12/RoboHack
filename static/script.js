@@ -1,4 +1,5 @@
 const searchInput = document.getElementById('searchInput');
+const nameInput = document.getElementById('nameInput');
 const searchButton = document.getElementById('searchButton');
 const responseArea = document.getElementById('responseArea');
 const loading = document.getElementById('loading');
@@ -16,6 +17,7 @@ async function typeText(el, text, speed = 18) {
 // Handle search submission
 async function handleSearch() {
     const query = searchInput.value.trim();
+    const name = nameInput?.value.trim() || '';
     if (!query) return;
 
     // Clear the input immediately
@@ -29,7 +31,7 @@ async function handleSearch() {
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: query })
+            body: JSON.stringify({ message: query, name })
         });
 
         const data = await response.json();

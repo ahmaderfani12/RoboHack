@@ -9,31 +9,42 @@
 </head>
 <body>
     <canvas id="threejsCanvas"></canvas>
-    <div class="container">
-        <div class="mystic-title" style="margin-bottom: 20px; margin-top: 20px;">
-            <h1>RoboMystic</h1>
-            <p class="subtitle"> The Mechanical Seer — Ask, and the machine will show your fate</p>
-        </div>
+    <div class="mystic-title">
+        <h1>RoboMystic</h1>
+    </div>
 
-        <div class="crystal-ball">
+    <div class="main-content">
+        <p class="subtitle"> The Mechanical Seer — Ask, and the machine will show your fate</p>
+        <div class="container">
+            <div class="crystal-ball">
             <div class="search-wrapper">
                 <input
                     type="text"
                     id="searchInput"
-                    class="search-input"
+                    class="search-input prompt-input"
                     placeholder="Pose your question to the machine..."
                     autocomplete="off"
                 >
-                <button id="searchButton" class="search-button" aria-label="Ask RoboMystic">
-                    <span class="button-glow" aria-hidden="true"></span>
-                    <span class="button-face">
-                        <span class="button-label">Summon</span>
-                    </span>
-                </button>
+                <div class="prompt-row">
+                    <input
+                        type="text"
+                        id="nameInput"
+                        class="search-input name-input"
+                        placeholder="Reveal your name..."
+                        autocomplete="off"
+                    >
+                    <button id="searchButton" class="search-button" aria-label="Ask RoboMystic">
+                        <span class="button-glow" aria-hidden="true"></span>
+                        <span class="button-face">
+                            <span class="button-label">Summon</span>
+                        </span>
+                    </button>
+                </div>
             </div>
 
             <div id="responseArea" class="response-area" aria-live="polite"></div>
             <div id="loading" class="loading">The machine spirits are consulting...</div>
+        </div>
         </div>
     </div>
 

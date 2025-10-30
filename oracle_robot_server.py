@@ -49,6 +49,7 @@ state_lock = threading.Lock()
 history_lock = threading.Lock()
 last_state: Optional[Tuple[List[float], str]] = None
 conversation_history: List[Tuple[str, str]] = []
+last_user_name: Optional[str] = None
 
 
 # --- Helpers ----------------------------------------------------------------
@@ -191,11 +192,17 @@ def drive_robot_for_word(word: str) -> None:
 def chat() -> tuple:
     data = request.json or {}
     user_message = data.get("message", "")
+    provided_name = (data.get("name") or "").strip()
     if not user_message:
         return jsonify({"error": "No message provided"}), 400
 
     try:
+        global last_user_name
         with history_lock:
+            if provided_name:
+                if provided_name != last_user_name:
+                    conversation_history.append(("user", f"My name is {provided_name}"))
+                    last_user_name = provided_name
             conversation_history.append(("user", user_message))
             history_snapshot = list(conversation_history)
 
